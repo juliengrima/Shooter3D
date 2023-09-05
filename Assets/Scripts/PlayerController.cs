@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,25 +11,27 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] CharacterController _controller;
     [SerializeField] Animator _animator;
     [SerializeField] Audios _audios;
-    [Header("Action_Compoenents")]
+    [SerializeField] Transform _playerCamera;
+    [Header("Action_Components")]
     [SerializeField] InputActionReference _move;
     [SerializeField] InputActionReference _run;
     [SerializeField] InputActionReference _jump;
-    [SerializeField] InputActionReference _use;
+    [SerializeField] InputActionReference _look;
     [Header("Fieds")]
     [SerializeField] float _speed;
     [SerializeField] float _runSpeed;
     [SerializeField] float _jumpHeight;
-    [SerializeField] float _gravity;
-
-
+    [SerializeField, Range(0, -11)] float _gravity;
+    [SerializeField, Range(30, 60)] float _rotationXLimit;
     //Privates Components
     //CharacterController _controller;
     Vector3 playerVelocity;
-    Coroutine _coroutine;
     //Privates Fields
     bool _isGrounded; //Sphere de collision avec le sol
     bool _isButtonPressed;
+    float _horizontal;
+    float _vertical;
+    
     #endregion
     #region Unity Before Start
     // Start is called before Start() and the first frame update
@@ -38,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         _runSpeed = 1f;
         _jumpHeight = 1f;
         _gravity = -9.81f;
+        _rotationXLimit = 45.0f;
     }
     void Awake()
     {
@@ -56,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
     {
         IsGrounded();
         Mouvement();
+        look();
     }
     #endregion
     #region Methods
@@ -66,19 +71,25 @@ public class PlayerMovement : MonoBehaviour
         {
             playerVelocity.y = 0f;
         }
+        else
+        {
+            playerVelocity.y = _gravity;
+        }
     }
     void Mouvement()
     {
-        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector2 direction = _move.action.ReadValue<Vector2>();
+        //Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 move = new Vector3(direction.x, 0, direction.y);
+        move = _controller.transform.TransformDirection(move);
         _controller.Move(move * Time.deltaTime * _speed);
-
-        //Change vertical position
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }
-
+        //Change vertical position for TPS
+        //if (move != Vector3.zero)
+        //{
+        //    gameObject.transform.forward = move;
+        //}
         _controller.Move(playerVelocity * Time.deltaTime);
+        
     }
     void jump()
     {
@@ -91,13 +102,23 @@ public class PlayerMovement : MonoBehaviour
 
             playerVelocity.y += _gravity * Time.deltaTime;
         }
-        // Changes the height position of the player..   
     }
-    void FixedUpdate()
+    private void look()
     {
-
+        //throw new NotImplementedException();
+        Vector2 look = _look.action.ReadValue<Vector2>();
+        _horizontal += look.x;
+        _vertical += look.y;
+        //On limite rotationX, entre -rotationXLimit et rotationXLimit (-45 et 45)
+        _vertical = Mathf.Clamp(_vertical, -_rotationXLimit, _rotationXLimit);
+        //Applique la rotation haut/bas sur la caméra
+        transform.rotation = Quaternion.Euler(0, _horizontal, 0);
+        //mouvement de la souris gauche/droite
+        //Applique la rotation gauche/droite sur le Player
+        _playerCamera.localRotation = Quaternion.Euler(_vertical ,0 , 0);
+        //transform.rotation *= Quaternion.Euler(0, mouse.x * _rotationSpeed, 0);
     }
-    void LateUpdate()
+    void Interaction()
     {
 
     }
