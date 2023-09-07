@@ -38,8 +38,7 @@ public class Inventory : MonoBehaviour
         else
         {
             itemInventory.Add(item);
-        }
-        
+        }   
     }
     public void RemoveItem(GameObject item)
     {
@@ -62,8 +61,7 @@ public class Inventory : MonoBehaviour
             string error = $"Vous avez atteinds le nombre maximal d'armes - nb Weapons{count}";
         }
         else
-        {
-            
+        {    
             int weaponIndex = weapon.GetWeaponIndex();
             // Vérifier si l'arme avec le même index existe déjà dans l'inventaire
             if (!HasWeaponWithIndex(weaponIndex))

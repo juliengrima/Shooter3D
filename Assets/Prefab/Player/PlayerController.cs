@@ -126,7 +126,9 @@ public class PlayerMovement : MonoBehaviour
                 selectedWeaponIndex = 0;
                 //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
                 var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
-                t.transform.localPosition = Vector3.zero;
+                var w = t.GetComponent<Weapon>();
+                w.Position();
+                w.gameObject.SetActive(true);
             }
             else
             {
@@ -141,7 +143,10 @@ public class PlayerMovement : MonoBehaviour
                 selectedWeaponIndex = _inventory.Weapons.Count - 1;
                 //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
                 var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
-                t.transform.localPosition = Vector3.zero;
+                var w = t.GetComponent<Weapon>();
+                w.Position();
+                w.gameObject.SetActive(true);
+
             }
             else
             {
@@ -167,7 +172,9 @@ public class PlayerMovement : MonoBehaviour
                 selectedWeaponIndex = 0;
                 //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
                 var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
-                t.transform.localPosition = Vector3.zero;
+                var w = t.GetComponent<Weapon>();
+                w.Position();
+                w.gameObject.SetActive(true);
             }
         }
         else if (selection.y < 0)
@@ -178,7 +185,9 @@ public class PlayerMovement : MonoBehaviour
                 selectedWeaponIndex = _inventory.Weapons.Count - 1;
                 //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
                 var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
-                t.transform.localPosition = Vector3.zero;
+                var w = t.GetComponent<Weapon>();
+                w.Position();
+                w.gameObject.SetActive(true);
             }
         }
         // Mettre à jour l'arme actuellement sélectionnée dans l'inventaire

@@ -121,6 +121,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventory: {fileID: 0}
+  _weaponIndex: 0
+  _maxAmmo: 100
+  _fireRate: 3
   _onUsed:
     m_PersistentCalls:
       m_Calls:
@@ -151,3 +154,6 @@ MonoBehaviour:
   _onFire:
     m_PersistentCalls:
       m_Calls: []
+  _position: {x: 0, y: 0, z: 0}
+  _rotation: {x: 20, y: 55, z: 111}
+  _scale: {x: 1, y: 1, z: 1}

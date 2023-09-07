@@ -270,7 +270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7014817574470514474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.00162, z: 0}
+  m_LocalPosition: {x: 0.0006, y: 0.00147, z: -0.00011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -337,22 +337,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.8492551
+      value: -9.186693
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.101
+      value: 1.558
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.714976
+      value: 22.913563
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.43552485
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
@@ -362,7 +362,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.9001767
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
@@ -377,7 +377,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 128.363
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
@@ -465,7 +465,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4806215588864922966, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -6804572004817477421, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -5232338560890610375, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: 8579474628723825826, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -8646015640487246514, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: 1097746862263191420, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: 8717275333419696035, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: 4498947208625427171, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -7673564798443543379, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -8673590300091224948, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: 8379327536665146044, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -2516479917788204209, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: 8241466863968851630, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
+    - {fileID: -100020041524674830, guid: 91b7457e3d862444ab8a4cc49d631bc1, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 91b7457e3d862444ab8a4cc49d631bc1,
         type: 3}
@@ -573,7 +587,7 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.9877925
+  m_Height: 2.0366352
   m_Radius: 0.39806747
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -655,6 +669,8 @@ MonoBehaviour:
   _jump: {fileID: 7453187535003201212, guid: 12ff2dcf320d64e05a6147d58895311d, type: 3}
   _look: {fileID: -3490207912032501426, guid: 12ff2dcf320d64e05a6147d58895311d, type: 3}
   _mouseWheel: {fileID: -1458500320079417261, guid: 12ff2dcf320d64e05a6147d58895311d,
+    type: 3}
+  _keyboard: {fileID: -394401355968601977, guid: 12ff2dcf320d64e05a6147d58895311d,
     type: 3}
   _speed: 2
   _runSpeed: 7

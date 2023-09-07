@@ -19,6 +19,11 @@ public class Weapon : MonoBehaviour, IInteractable
     [SerializeField] UnityEvent _onUsed;
     [SerializeField] UnityEvent _onFire;
 
+    [Header("Position")]
+    [SerializeField] Vector3 _position = Vector3.zero;
+    [SerializeField] Vector3 _rotation;
+    [SerializeField] Vector3 _scale = Vector3.one;
+
     private int currentAmmo; // Munitions actuelles
     public int WeaponIndex { get => _weaponIndex; }
     public int MaxAmmo { get => _maxAmmo; }
@@ -31,10 +36,16 @@ public class Weapon : MonoBehaviour, IInteractable
     #endregion
     #region Methods
     public void Use(bool action)
-    {
-        
+    {  
         _inventory.AddWeapons(this);
         _onUsed.Invoke();
+    }
+
+    public void Position()
+    {
+        transform.localPosition = _position;
+        transform.localRotation = Quaternion.Euler(_rotation);
+        transform.localScale = _scale;
     }
     #region Unity LifeCycle
     private void Reset()
