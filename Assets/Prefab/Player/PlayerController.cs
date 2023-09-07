@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,11 +10,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Animator _animator;
     [SerializeField] Audios _audios;
     [SerializeField] Transform _playerCamera;
+    [Header("Scriptable_Components")]
+    [SerializeField] Inventory _inventory; // Référence au script Inventory
+    [SerializeField] Transform _weaponSpawner;
     [Header("Action_Components")]
     [SerializeField] InputActionReference _move;
     [SerializeField] InputActionReference _run;
     [SerializeField] InputActionReference _jump;
     [SerializeField] InputActionReference _look;
+    [SerializeField] InputActionReference _mouseWheel;
+    [SerializeField] InputActionReference _keyboard;
+    //[SerializeField] InputActionReference _fire;
     [Header("Fieds")]
     [SerializeField] float _speed;
     [SerializeField] float _runSpeed;
@@ -24,15 +28,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0, -11)] float _gravity;
     [SerializeField, Range(30, 60)] float _rotationXLimit;
     //Privates Components
-    //CharacterController _controller;
     Vector3 playerVelocity;
-    public static bool _mousePresent;
     //Privates Fields
     bool _isGrounded; //Sphere de collision avec le sol
     bool _isButtonPressed;
     float _horizontal;
     float _vertical;
-    
+    private int selectedWeaponIndex = 0; // Index de l'arme sélectionnée
     #endregion
     #region Unity Before Start
     // Start is called before Start() and the first frame update
@@ -51,37 +53,30 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     #region Unity LifeCycle
     // Start is called before the first frame update
-    void Start()
-    {
-        //_controller = gameObject.AddComponent<CharacterController>();
-    }
-
     // Update is called once per frame
     void Update()
     {
         IsGrounded();
         Mouvement();
-        Run();
+        jump();
         look();
+        GetNextScrollWeapon();
     }
     #endregion
     #region Methods
     void IsGrounded()
     {
         _isGrounded = _controller.isGrounded;
-        if (_isGrounded && playerVelocity.y < 0)
+        if (_isGrounded)
         {
             playerVelocity.y = 0f;
         }
-        else
-        {
-            playerVelocity.y = _gravity;
-        }
+        // Update gravity
+        playerVelocity.y += _gravity * Time.deltaTime;
     }
     void Mouvement()
     {
         Vector2 direction = _move.action.ReadValue<Vector2>();
-        //Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         Vector3 move = new Vector3(direction.x, 0, direction.y);
         move = _controller.transform.TransformDirection(move);
         _controller.Move(move * Time.deltaTime * _speed);
@@ -93,30 +88,16 @@ public class PlayerMovement : MonoBehaviour
         }
         _controller.Move(playerVelocity * Time.deltaTime);
     }
-    private void Run()
-    {
-        //throw new NotImplementedException();
-        if (_isButtonPressed)
-        {
-            
-        }
-    }
     void jump()
     {
-        if (_isButtonPressed)
+        _isButtonPressed = _jump.action.IsPressed();
+        if (_isButtonPressed && _isGrounded)
         {
-            if (_jump && _isGrounded)
-            {
-                playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravity);
-            }
-
-            playerVelocity.y += _gravity * Time.deltaTime;
-        }
+            playerVelocity.y += Mathf.Sqrt(_jumpHeight * -3.0f * _gravity);
+        } 
     }
     private void look()
     {
-        //if (_mousePresent)
-        //{
             //throw new NotImplementedException();
             Vector2 look = _look.action.ReadValue<Vector2>();
             _horizontal += look.x;
@@ -128,12 +109,82 @@ public class PlayerMovement : MonoBehaviour
             //mouvement de la souris gauche/droite
             //Applique la rotation gauche/droite sur le Player
             _playerCamera.localRotation = Quaternion.Euler(_vertical, 0, 0);
-            //transform.rotation *= Quaternion.Euler(0, mouse.x * _rotationSpeed, 0);
-        //}
     }
-    void Interaction()
+    public int GetNextScrollWeapon()
     {
 
+        //throw new NotImplementedException();
+        //bool selection = _mouseWheel.action.IsPressed();
+        Vector2 selection = _mouseWheel.action.ReadValue<Vector2>();
+        // Gérer le changement d'arme en fonction du défilement de la molette
+        if (_inventory.Weapons.Count == 0) return -1;
+        if (selection.y > 0)
+        {
+            selectedWeaponIndex++;
+            if (selectedWeaponIndex >= _inventory.Weapons.Count)
+            {
+                selectedWeaponIndex = 0;
+                //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
+                var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
+                t.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+                return _inventory.SelectedWeaponIndex;
+            }
+        }
+        else if (selection.y < 0)
+        {
+            selectedWeaponIndex--;
+            if (selectedWeaponIndex < 0)
+            {
+                selectedWeaponIndex = _inventory.Weapons.Count - 1;
+                //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
+                var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
+                t.transform.localPosition = Vector3.zero;
+            }
+            else
+            {
+
+                return _inventory.SelectedWeaponIndex;
+            }
+        }
+        // Mettre à jour l'arme actuellement sélectionnée dans l'inventaire
+        _inventory.SelectedWeaponIndex = selectedWeaponIndex;
+
+        return _inventory.SelectedWeaponIndex;
+    }
+    private int GetNextKeyWeapon()
+    {
+        //throw new NotImplementedException();
+        var selection = _keyboard.action.ReadValue<Vector2>();
+        if (_inventory.Weapons.Count == 0) return -1;
+        if (selection.y > 0)
+        {
+            selectedWeaponIndex++;
+            if (selectedWeaponIndex >= _inventory.Weapons.Count)
+            {
+                selectedWeaponIndex = 0;
+                //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
+                var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
+                t.transform.localPosition = Vector3.zero;
+            }
+        }
+        else if (selection.y < 0)
+        {
+            selectedWeaponIndex--;
+            if (selectedWeaponIndex < 0)
+            {
+                selectedWeaponIndex = _inventory.Weapons.Count - 1;
+                //_player.transform.SetParent(transform);  INSTANCIATE GAMEOBJET VIDE
+                var t = Instantiate(_inventory.Weapons[selectedWeaponIndex], _weaponSpawner);
+                t.transform.localPosition = Vector3.zero;
+            }
+        }
+        // Mettre à jour l'arme actuellement sélectionnée dans l'inventaire
+        _inventory.SelectedWeaponIndex = selectedWeaponIndex;
+
+        return _inventory.SelectedWeaponIndex;
     }
     #endregion
     #region Coroutines

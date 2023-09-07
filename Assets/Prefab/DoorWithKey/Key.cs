@@ -19,10 +19,10 @@ public class Key : MonoBehaviour, IInteractable
     public void Use(bool action)
     {
         var item = gameObject;
-        //Inventory itemInventory = gameObject.GetComponent<Inventory>();
         _inventory.AddItem(item);
         _onUsed.Invoke();
     }
+    //public void Fire() { }
     #endregion
     #region Coroutines
     #endregion

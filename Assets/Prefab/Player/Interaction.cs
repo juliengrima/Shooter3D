@@ -10,15 +10,11 @@ public class Interaction : MonoBehaviour
     [Header("Components")]
     [SerializeField] Camera _camera;
     [SerializeField] InputActionReference _action;
-    //[Header("Events")]
-    //[SerializeField] UnityEvent _onPicked;
     [Header("Fields")]
     [SerializeField] float _rayDistance;
-    //[SerializeField] List<string> _tags;
 
     bool _use;
     public bool Use { get => _use; }
-    //public List<string> Tags { get => _tags; set => _tags = value; }
     #endregion
     #region Unity LifeCycle
     // Start is called before the first frame update
@@ -55,14 +51,6 @@ public class Interaction : MonoBehaviour
     }
     #endregion
     #region Methods
-    void FixedUpdate ()
-    {
-        
-    }
-    void LateUpdate ()
-    {
-        
-    }
     #endregion
     #region Coroutines
     #endregion

@@ -10,17 +10,25 @@ public class Inventory : MonoBehaviour
     #region Champs
     [Header("Lists")]
     [SerializeField] List<GameObject> _inventory = new List<GameObject>(); // Liste de GameObject Keys
-    [SerializeField] List<GameObject> _weapons = new List<GameObject>(); // Liste de GameObject Weapons
+    [SerializeField] List<Weapon> _weapons = new List<Weapon>(); // Liste de GameObject Weapons
     [SerializeField] List<GameObject> _tools = new List<GameObject>(); // Liste de GameObject Tools
 
     public List<GameObject> itemInventory { get => _inventory; set => _inventory = value; }
-    public List<GameObject> Weapons { get => _weapons; set => _weapons = value; }
+    public List<Weapon> Weapons { get => _weapons; set => _weapons = value; }
+
+    private int selectedWeaponIndex = 0; // Index de l'arme actuellement sélectionnée
+    public int SelectedWeaponIndex
+    {
+        get => selectedWeaponIndex;
+        set => selectedWeaponIndex = Mathf.Clamp(value, 0, Weapons.Count - 1);
+    }
     #endregion
     #region Unity LifeCycle
     #endregion
     #region Methods ITEMS
     public void AddItem(GameObject item)
     {
+        //Testing max item in list
         var count = itemInventory.Count;
         if (count > 3)
         {
@@ -43,18 +51,52 @@ public class Inventory : MonoBehaviour
     }
     #endregion
     #region Methods Weapons
-    public void AddWeapons(GameObject weapon)
+    public void AddWeapons(Weapon weapon)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        //Testing max item in list
+        var count = Weapons.Count;
+        if (count > 5)
+        {
+            Debug.Log($"Votre inventaire est plein !");
+            string error = $"Vous avez atteinds le nombre maximal d'armes - nb Weapons{count}";
+        }
+        else
+        {
+            
+            int weaponIndex = weapon.GetWeaponIndex();
+            // Vérifier si l'arme avec le même index existe déjà dans l'inventaire
+            if (!HasWeaponWithIndex(weaponIndex))
+            {
+                Weapons.Add(weapon);
+            }
+            else
+            {
+                weapon.ReloadAmmo(weapon.MaxAmmo);
+            }
+        }
     }
-    public void RemoveWeapons(GameObject weapon)
+    public void RemoveWeapons(Weapon weapon)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        Weapons.Remove(weapon);
     }
-    public bool HasWeapons(GameObject weapon)
+    public bool HasWeapons(Weapon weapon)
     {
-        throw new NotImplementedException();
-
+        //throw new NotImplementedException();
+        return Weapons.Contains(weapon);
+    }
+    public bool HasWeaponWithIndex(int weaponIndex)
+    {
+        foreach (var weapon in Weapons)
+        {
+            
+            if (weapon.GetWeaponIndex() == weaponIndex)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     #endregion
     #region Methods Tools

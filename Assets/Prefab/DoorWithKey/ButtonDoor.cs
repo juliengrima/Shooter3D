@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Audio;
@@ -38,10 +37,8 @@ public class ButtonDoor : MonoBehaviour, IInteractable
                 if (action)
                 {
                     _animator.SetTrigger("Up"); //Play animation
-
                     //Test if player use more 2 time fight button
                     if (actionCount == 2) actionCount = 0;
-
                     actionCount++;
                     // Disable and enable Collider for takedamage
                     if (actionCount == 1)
